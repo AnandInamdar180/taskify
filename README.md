@@ -76,7 +76,7 @@ How to Run the Project
 
 1. Clone the repository
 
-git clone https://github.com/your-username/taskify.git
+git clone https://github.com/AnandInamdar180/taskify.git
 
 2. Open the project folder
 
