@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskify - Personal Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <h1 class="logo">Taskify</h1>
+                <p class="tagline">Organize. Prioritize. Achieve.</p>
+            </div>
+            
+            <div class="login-form-container">
+                <form id="loginForm" class="login-form">
+                    <h2>Welcome Back</h2>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full-width">Sign In</button>
+                    <div class="login-links">
+                        <a href="#" id="forgotPassword">Forgot Password?</a>
+                        <a href="#" id="registerLink">Create Account</a>
+                    </div>
+                </form>
+                
+                <form id="registerForm" class="login-form hidden">
+                    <h2>Create Account</h2>
+                    <div class="form-group">
+                        <label for="regName" class="form-label">Full Name</label>
+                        <input type="text" id="regName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail" class="form-label">Email</label>
+                        <input type="email" id="regEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword" class="form-label">Password</label>
+                        <input type="password" id="regPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full-width">Create Account</button>
+                    <div class="login-links">
+                        <a href="#" id="loginLink">Already have an account?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="main-app hidden">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <h1 class="nav-logo">Taskify</h1>
+            </div>
+            <div class="nav-right">
+                <div class="user-profile">
+                    <button class="profile-btn" id="profileBtn">
+                        <span class="profile-avatar">JD</span>
+                        <span class="profile-name">John Doe</span>
+                    </button>
+                    <div class="profile-dropdown hidden" id="profileDropdown">
+                        <a href="#" class="dropdown-item">Profile Settings</a>
+                        <a href="#" class="dropdown-item">Preferences</a>
+                        <a href="#" class="dropdown-item" id="logoutBtn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="app-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" data-page="dashboard">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="tasks">
+                        <span class="nav-icon">✓</span>
+                        <span class="nav-text">My Tasks</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="calendar">
+                        <span class="nav-icon">📅</span>
+                        <span class="nav-text">Calendar</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="kanban">
+                        <span class="nav-icon">⊞</span>
+                        <span class="nav-text">Kanban</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Dashboard Page -->
+                <div id="dashboardPage" class="page active">
+                    <div class="page-header">
+                        <h2>Personal Dashboard</h2>
+                        <button class="btn btn-primary" id="newTaskBtn">+ New Task</button>
+                    </div>
+                    
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <h3>Total Tasks</h3>
+                            <span class="stat-number" id="totalTasks">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h3>In Progress</h3>
+                            <span class="stat-number" id="inProgressTasks">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Completed</h3>
+                            <span class="stat-number" id="completedTasks">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Overdue</h3>
+                            <span class="stat-number" id="overdueTasks">0</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-content">
+                        <div class="recent-tasks">
+                            <h3>Recent Tasks</h3>
+                            <div id="recentTasksList" class="task-list"></div>
+                        </div>
+                        <div class="productivity-overview">
+                            <h3>Productivity Insights</h3>
+                            <div id="productivityInsights" class="insights-list">
+                                <div class="insight-item">
+                                    <span class="insight-label">Completion Rate</span>
+                                    <span class="insight-value" id="completionRate">0%</span>
+                                </div>
+                                <div class="insight-item">
+                                    <span class="insight-label">Average Completion Time</span>
+                                    <span class="insight-value" id="avgCompletionTime">0 days</span>
+                                </div>
+                                <div class="insight-item">
+                                    <span class="insight-label">Most Productive Priority</span>
+                                    <span class="insight-value" id="productivePriority">High Priority</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Page -->
+                <div id="tasksPage" class="page">
+                    <div class="page-header">
+                        <h2>My Tasks</h2>
+                        <div class="page-actions">
+                            <div class="view-toggle">
+                                <button class="btn btn-outline view-btn active" data-view="list">List</button>
+                                <button class="btn btn-outline view-btn" data-view="grid">Grid</button>
+                            </div>
+                            <button class="btn btn-primary" id="newTaskBtn2">+ New Task</button>
+                        </div>
+                    </div>
+
+                    <!-- List View -->
+                    <div id="listView" class="task-view active">
+                        <div class="task-filters">
+                            <select id="statusFilter" class="form-control">
+                                <option value="">All Status</option>
+                                <option value="to-do">To Do</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <select id="priorityFilter" class="form-control">
+                                <option value="">All Priorities</option>
+                                <option value="high">High Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="low">Low Priority</option>
+                            </select>
+                            <input type="text" id="searchTasks" class="form-control" placeholder="Search tasks...">
+                        </div>
+                        <div id="taskListView" class="task-list-detailed"></div>
+                    </div>
+
+                    <!-- Grid View -->
+                    <div id="gridView" class="task-view">
+                        <div class="task-filters">
+                            <select id="statusFilter2" class="form-control">
+                                <option value="">All Status</option>
+                                <option value="to-do">To Do</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <select id="priorityFilter2" class="form-control">
+                                <option value="">All Priorities</option>
+                                <option value="high">High Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="low">Low Priority</option>
+                            </select>
+                            <input type="text" id="searchTasks2" class="form-control" placeholder="Search tasks...">
+                        </div>
+                        <div id="taskGridView" class="task-grid"></div>
+                    </div>
+                </div>
+
+                <!-- Calendar Page -->
+                <div id="calendarPage" class="page">
+                    <div class="page-header">
+                        <h2>My Calendar</h2>
+                        <button class="btn btn-primary" id="addCalendarTask">+ Add Task</button>
+                    </div>
+                    
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <div class="calendar-navigation">
+                                <button class="btn btn-outline calendar-nav-btn" id="prevMonth">‹</button>
+                                <select id="monthSelector" class="form-control calendar-select">
+                                    <option value="0">January</option>
+                                    <option value="1">February</option>
+                                    <option value="2">March</option>
+                                    <option value="3">April</option>
+                                    <option value="4">May</option>
+                                    <option value="5">June</option>
+                                    <option value="6">July</option>
+                                    <option value="7">August</option>
+                                    <option value="8">September</option>
+                                    <option value="9">October</option>
+                                    <option value="10">November</option>
+                                    <option value="11">December</option>
+                                </select>
+                                <select id="yearSelector" class="form-control calendar-select">
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                </select>
+                                <button class="btn btn-outline calendar-nav-btn" id="nextMonth">›</button>
+                                <button class="btn btn-outline" id="todayBtn">Today</button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-view">
+                            <div class="calendar-weekdays">
+                                <div class="weekday">Sun</div>
+                                <div class="weekday">Mon</div>
+                                <div class="weekday">Tue</div>
+                                <div class="weekday">Wed</div>
+                                <div class="weekday">Thu</div>
+                                <div class="weekday">Fri</div>
+                                <div class="weekday">Sat</div>
+                            </div>
+                            <div id="calendarGrid" class="calendar-grid"></div>
+                        </div>
+                        
+                        <div class="calendar-sidebar">
+                            <div class="calendar-legend">
+                                <h4>Legend</h4>
+                                <div class="legend-item">
+                                    <span class="legend-color high-priority"></span>
+                                    <span>High Priority</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color medium-priority"></span>
+                                    <span>Medium Priority</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color low-priority"></span>
+                                    <span>Low Priority</span>
+                                </div>
+                            </div>
+                            
+                            <div class="calendar-stats">
+                                <h4>This Month</h4>
+                                <div class="calendar-stat-item">
+                                    <span class="stat-label">Total Tasks</span>
+                                    <span class="stat-value" id="monthlyTotalTasks">0</span>
+                                </div>
+                                <div class="calendar-stat-item">
+                                    <span class="stat-label">Completed</span>
+                                    <span class="stat-value" id="monthlyCompletedTasks">0</span>
+                                </div>
+                                <div class="calendar-stat-item">
+                                    <span class="stat-label">Overdue</span>
+                                    <span class="stat-value" id="monthlyOverdueTasks">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kanban Page -->
+                <div id="kanbanPage" class="page">
+                    <div class="page-header">
+                        <h2>Kanban Board</h2>
+                        <button class="btn btn-primary" id="newTaskBtn3">+ New Task</button>
+                    </div>
+                    
+                    <div class="kanban-board">
+                        <div class="kanban-column">
+                            <h4>To Do</h4>
+                            <div class="kanban-tasks" data-status="to-do"></div>
+                        </div>
+                        <div class="kanban-column">
+                            <h4>In Progress</h4>
+                            <div class="kanban-tasks" data-status="in-progress"></div>
+                        </div>
+                        <div class="kanban-column">
+                            <h4>Completed</h4>
+                            <div class="kanban-tasks" data-status="completed"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">New Task</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="taskForm">
+                    <div class="form-group">
+                        <label for="taskTitle" class="form-label">Task Title</label>
+                        <input type="text" id="taskTitle" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDescription" class="form-label">Description</label>
+                        <textarea id="taskDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskPriority" class="form-label">Priority</label>
+                            <select id="taskPriority" class="form-control" required>
+                                <option value="high">High Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="low">Low Priority</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskStatus" class="form-label">Status</label>
+                            <select id="taskStatus" class="form-control" required>
+                                <option value="to-do">To Do</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskCategory" class="form-label">Category</label>
+                            <select id="taskCategory" class="form-control">
+                                <option value="">Select Category</option>
+                                <option value="Work & Career">Work & Career</option>
+                                <option value="Learning & Development">Learning & Development</option>
+                                <option value="Health & Fitness">Health & Fitness</option>
+                                <option value="Personal Projects">Personal Projects</option>
+                                <option value="Hobbies & Recreation">Hobbies & Recreation</option>
+                                <option value="Finance & Administration">Finance & Administration</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDueDate" class="form-label">Due Date</label>
+                            <input type="date" id="taskDueDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskNotes" class="form-label">Personal Notes</label>
+                        <textarea id="taskNotes" class="form-control" rows="2" placeholder="Add personal notes or comments..."></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-outline" id="cancelTask">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveTask">Save Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
